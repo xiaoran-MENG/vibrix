@@ -40,7 +40,7 @@ export class AddSongComponent implements OnDestroy {
   constructor() {
     effect(() => {
       this.adding = false;
-      const status = this.songService.songAdded().status;
+      const status = this.songService.adding().status;
       if (status === 'OK') {
         this.toastService.add('Song added', 'SUCCESS');
         this.router.navigate(['/']);

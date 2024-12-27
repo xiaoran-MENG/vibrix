@@ -6,8 +6,10 @@ import com.vibrix.catalog.application.mapper.ContentMapper;
 import com.vibrix.catalog.application.mapper.SongMapper;
 import com.vibrix.catalog.repository.SongContentRepository;
 import com.vibrix.catalog.repository.SongRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,5 +32,12 @@ public class SongService {
         content.setSong(song);
         contentRepository.save(content);
         return songMapper.toReadSongDTO(song);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadSongDTO> list() {
+        return songRepository.findAll().stream()
+                .map(songMapper::toReadSongDTO)
+                .toList();
     }
 }

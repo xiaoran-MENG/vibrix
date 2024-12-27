@@ -23,7 +23,7 @@ public record SaveSongDTO(
                 author,
                 cover.getBytes(),
                 cover.getContentType(),
-                file.getBytes(), 
+                file.getBytes(),
                 file.getContentType());
     }
 }
