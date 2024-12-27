@@ -1,3 +1,10 @@
+<div class="position-absolute z-2 mt-3 toast-container">
+  @for (toast of toasts; track toast) {
+    <ngb-toast [class]="toast.className" [autohide]="true" [delay]="1000" (hidden)="removeToast(toast)">
+      {{ toast.body }}
+    </ngb-toast>
+  }
+</div>
 <div class="container-fluid pt-3 vh-100">
   <div class="row main-row-height">
     <div class="d-none d-sm-none d-md-block col-md-3 col-xl-2 pe-2 h-100 navigation">
@@ -5,6 +12,7 @@
       <app-pool></app-pool>
     </div>
     <div class="col-12 col-sm-12 col-md-9 col-xl-10 ps-0 h-100">
+      <app-header></app-header>
       <div class="rounded-bottom-2 p-3 overflow-scroll main-content-full-height">
         <router-outlet></router-outlet>
       </div>
