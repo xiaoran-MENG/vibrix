@@ -1,5 +1,5 @@
 import { Component, effect, inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,8 +23,8 @@ type Progress = 'init' | 'invalid-file' | 'invalid-cover' | 'success' | 'error';
 })
 export class AddSongComponent implements OnDestroy {
   private builder = inject(FormBuilder);
-  private songs = inject(SongService);
-  private toaster = inject(ToastService);
+  private songService = inject(SongService);
+  private toastService = inject(ToastService);
   private router = inject(Router);
   
   adding = false;
@@ -40,18 +40,34 @@ export class AddSongComponent implements OnDestroy {
   constructor() {
     effect(() => {
       this.adding = false;
-      const status = this.songs.songAdded().status;
+      const status = this.songService.songAdded().status;
       if (status === 'OK') {
-        this.toaster.add('Song added', 'SUCCESS');
+        this.toastService.add('Song added', 'SUCCESS');
         this.router.navigate(['/']);
       } else if (status === 'ERROR') {
-        this.toaster.add('Failed to add song', 'DANGER');
+        this.toastService.add('Failed to add song', 'DANGER');
       }
     })
   }
 
   ngOnDestroy(): void {
-    this.songs.reset();
+    this.songService.reset();
+  }
+
+  get title(): AbstractControl<string, string> | null {
+    return this.form.get('title');
+  }
+
+  get author(): AbstractControl<string, string> | null {
+    return this.form.get('author');
+  }
+
+  get file(): AbstractControl<File | null, File | null> | null {
+    return this.form.get('file');
+  }
+
+  get cover(): AbstractControl<File | null, File | null> | null {
+    return this.form.get('cover');
   }
 
   add() {
@@ -60,7 +76,7 @@ export class AddSongComponent implements OnDestroy {
     if (!this.song.cover) this.progress = 'invalid-cover';
     this.song.title = { value: this.form.value.title };
     this.song.author = { value: this.form.value.author };
-    this.songs.add(this.song);
+    this.songService.add(this.song);
   }
 
   

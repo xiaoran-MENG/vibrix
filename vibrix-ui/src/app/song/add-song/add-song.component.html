@@ -1,0 +1,91 @@
+<div class="flex-column d-flex align-items-center">
+    <div class="w-75">
+        <h1 class="mb-3 text-start">Add</h1>
+        <form id="add-song-form" (ngSubmit)="add()" [formGroup]="form">
+            <div class="form-floating mb-3 text-secondary">
+                <input 
+                    class="form-control" 
+                    [class.is-valid]="title?.valid" 
+                    [class.is-invalid]="title?.dirty && title?.invalid" 
+                    id="title" 
+                    type="text"
+                    placeholder="Title"
+                    formControlName="title"
+                >
+                <label for="title">Title</label>
+                @if (title?.dirty && title?.hasError('required')) {
+                    <div class="invalid-feedback">Title is required</div>
+                }
+            </div>
+            <div class="form-floating mb-3 text-secondary">
+                <input 
+                    class="form-control" 
+                    [class.is-valid]="author?.valid" 
+                    [class.is-invalid]="author?.dirty && author?.invalid" 
+                    id="author" 
+                    type="text"
+                    placeholder="Author"
+                    formControlName="author"
+                >
+                <label for="author">Author</label>
+                @if (author?.dirty && author?.hasError('required')) {
+                    <div class="invalid-feedback">Author is required</div>
+                }
+            </div>
+            <div class="form-floating mb-3 text-secondary">
+                <input 
+                    class="form-control" 
+                    [class.is-valid]="cover?.valid" 
+                    id="cover" 
+                    type="file"
+                    placeholder="Cover"
+                    accept=".jpg,.jpeg,.png,.svg"
+                    formControlName="cover"
+                    (change)="onCoverUpload($event.target)"
+                >
+                <label for="cover">Cover</label>
+            </div>
+            <div class="form-floating mb-3 text-secondary">
+                <input 
+                    class="form-control" 
+                    [class.is-valid]="file?.valid" 
+                    id="file" 
+                    type="file"
+                    placeholder="File"
+                    accept=".wav,.mp3"
+                    formControlName="file"
+                    (change)="onFileUpload($event.target)"
+                >
+                <label for="file">MP3</label>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-primary" type="submit" [disabled]="form.invalid || adding">
+                    @if (adding) {
+                        <div class="d-flex align-items-center justify-content-center">
+                            <fa-icon class="me-2" icon="circle-notch" animation="spin"></fa-icon>
+                            <div>Processing...</div>
+                        </div>
+                    } @else {
+                        <div>Add</div>
+                    }
+                </button>
+            </div>
+        </form>
+        @if (['error', 'invalid-cover', 'invalid-file'].includes(progress)) {
+            <ngb-alert class="d-flex align-items-center justify-content-start mt-3" [dismissible]="false" type="danger">
+                <fa-icon class="me-2" icon="circle-xmark" size="2x"></fa-icon>
+                <div>
+                    @if (progress === 'invalid-cover') {
+                        Invalid cover
+                    }
+                    @if (progress === 'invalid-file') {
+                        Invalid file
+                    }
+                    @if (progress === 'error') {
+                        Failed to add
+                    }
+                </div>
+            </ngb-alert>
+        }
+    </div>
+</div>
