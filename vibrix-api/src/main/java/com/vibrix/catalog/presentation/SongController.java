@@ -2,6 +2,7 @@ package com.vibrix.catalog.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vibrix.catalog.application.SongService;
+import com.vibrix.catalog.application.dto.ContentDTO;
 import com.vibrix.catalog.application.dto.ReadSongDTO;
 import com.vibrix.catalog.application.dto.SaveSongDTO;
 import com.vibrix.user.application.UserService;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,6 +40,16 @@ public class SongController {
         return ResponseEntity.ok(songService.list());
     }
 
+    @GetMapping("/songs/content")
+    public ResponseEntity<ContentDTO> one(@RequestParam UUID publicId) {
+        var content = songService.one(publicId);
+        return content.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.of(notFound()).build());
+    }
+
+    private static ProblemDetail notFound() {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "UUID not found");
+    }
+
     @PostMapping(value = "/songs", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ReadSongDTO> add(
         @RequestPart(name = "cover") MultipartFile cover,
@@ -48,10 +60,10 @@ public class SongController {
         var violations = validator.validate(song);
         return violations.isEmpty()
             ? ResponseEntity.ok(songService.add(song))
-            : ResponseEntity.of(getProblemDetail(violations)).build();
+            : ResponseEntity.of(invalidFields(violations)).build();
     }
 
-    private static ProblemDetail getProblemDetail(Set<ConstraintViolation<SaveSongDTO>> violations) {
+    private static ProblemDetail invalidFields(Set<ConstraintViolation<SaveSongDTO>> violations) {
         var joined = violations.stream()
                 .map(v -> v.getPropertyPath() + " " + v.getMessage())
                 .collect(Collectors.joining());

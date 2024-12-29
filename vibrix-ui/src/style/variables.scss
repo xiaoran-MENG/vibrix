@@ -44,15 +44,15 @@ $form-floating-padding-y: 13px;
 $header-height: 61px;
 $footer-height: 85px;
 $navigation-height: 163px;
-$library-height: calc(100% - $navigation-height);
+$pool-height: calc(100% - $navigation-height);
 $main-row-height: calc(100% - $footer-height);
 $main-content-height: calc(100% - $header-height);
 
 //
 // Card
 //
-$card-inactive-background: #171717;
-$card-hover-background: #242424;
+$card-inactive-background: #dee2e6;
+$card-hover-background: #e9ecef;
 $card-border-radius: 7px;
 $card-border-color: $card-inactive-background;
 

@@ -1,2 +1,18 @@
 @import 'style/variables.scss';
 @import 'bootstrap/scss/bootstrap';
+
+.song-card-background {
+    cursor: pointer;
+    background-color: $white;
+    border-style: none;
+}
+
+.song-card-background:hover {
+    background-color: $card-hover-background;
+    border-radius: $card-border-radius;
+}
+
+.author {
+    color: $secondary;
+    font-size: $font-size-small;
+}

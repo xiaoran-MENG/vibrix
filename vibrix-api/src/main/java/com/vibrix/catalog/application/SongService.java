@@ -1,15 +1,19 @@
 package com.vibrix.catalog.application;
 
+import com.vibrix.catalog.application.dto.ContentDTO;
 import com.vibrix.catalog.application.dto.ReadSongDTO;
 import com.vibrix.catalog.application.dto.SaveSongDTO;
 import com.vibrix.catalog.application.mapper.ContentMapper;
 import com.vibrix.catalog.application.mapper.SongMapper;
+import com.vibrix.catalog.model.SongContent;
 import com.vibrix.catalog.repository.SongContentRepository;
 import com.vibrix.catalog.repository.SongRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,5 +43,11 @@ public class SongService {
         return songRepository.findAll().stream()
                 .map(songMapper::toReadSongDTO)
                 .toList();
+    }
+
+    public Optional<ContentDTO> one(UUID publicId) {
+        return contentRepository
+                .findOneBySongPublicId(publicId)
+                .map(contentMapper::toContentDTO);
     }
 }

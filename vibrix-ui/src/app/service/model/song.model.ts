@@ -23,7 +23,7 @@ export interface ReadSong extends Song {
     cover?: string;
     coverContentType?: string;
     favorite: boolean;
-    displayPlay: boolean;
+    displayPlayIcon: boolean;
 }
 
 export interface SongContent extends ReadSong {

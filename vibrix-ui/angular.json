@@ -68,7 +68,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "vibirx:build",
-            "proxyConfig": "proxy.conf.mjs"
+            "proxyConfig": "proxy.config.mjs"
           },
           "configurations": {
             "production": {

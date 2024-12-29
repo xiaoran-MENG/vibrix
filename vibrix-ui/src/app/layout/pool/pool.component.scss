@@ -1,0 +1,18 @@
+@import '../../../style/variables.scss';
+
+.pool-height {
+    height: $pool-height;
+}
+
+.pool-songs {
+    overflow-y: scroll;
+}
+
+.pool-song-card {
+    cursor: pointer;
+}
+
+.pool-song-card:hover {
+    background-color: $card-hover-background;
+    border-radius: $card-border-radius;
+}

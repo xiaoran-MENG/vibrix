@@ -27,16 +27,16 @@ export class AppComponent implements OnInit {
   title = 'vibrix-ui';
   
   private icons = inject(FaIconLibrary);
-  private toaster = inject(ToastService);
-  toasts = this.toaster.toasts;
+  private toastService = inject(ToastService);
+  toasts = this.toastService.toasts;
   
   ngOnInit(): void {
     this.addIcons();
-    this.toaster.add('Hello', 'DANGER');
+    this.toastService.add('Welcome to Vibrix', 'DANGER');
   }
 
   removeToast(toast: ToastInfo) {
-    this.toaster.remove(toast);
+    this.toastService.remove(toast);
   }
 
   private addIcons() {
