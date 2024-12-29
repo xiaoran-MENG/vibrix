@@ -15,6 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "api/songs").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/songs").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/songs/search").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf ->

@@ -20,14 +20,11 @@ export class HeaderComponent implements OnInit {
     effect(() => {
       const { status, value } = this.auth.user();
       if (status === 'OK') this.user = value;
-      console.log('header - effect - user');
-      console.log(this.user);
     });
   }
 
   ngOnInit(): void {
     this.auth.getUser();
-    console.log('header - init - got user');
   }
 
   login() {

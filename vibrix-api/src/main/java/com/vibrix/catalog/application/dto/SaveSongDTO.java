@@ -12,7 +12,7 @@ import java.io.IOException;
 public record SaveSongDTO(
         @Valid Title title,
         @Valid Author author,
-        @NotBlank byte[] cover,
+        @NotNull byte[] cover,
         @NotNull String coverContentType,
         @NotNull byte[] file,
         @NotNull String fileContentType) {
