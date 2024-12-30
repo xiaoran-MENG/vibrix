@@ -1,0 +1,59 @@
+@import '../../../style/variables.scss';
+
+.player {
+    padding: 10px;
+    border-radius: $card-border-radius;
+
+    .control {
+        font-size: 25px;
+        color: $primary;
+    }
+
+    .control:hover {
+        color: $blue;
+    }
+
+    .play-icon {
+        font-size: 33px;
+        color: $primary;
+        cursor: pointer;
+    }
+
+    .play-icon:hover {
+        transform: scale(1.09);
+    }
+
+    .volumn {
+        width: 130px;
+
+        .volumn-icon {
+            fa-icon {
+                color: $primary;
+                width: 30px;
+                font-size: 17px;
+            }
+        }
+
+        .form-range {
+            width: 100px;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Remove default styling */
+            background-color: $primary; /* Set the thumb color to pink */
+        }
+        
+        .form-range::-moz-range-thumb {
+            background-color: $primary; /* Set the thumb color to pink */
+        }
+        
+        .form-range::-ms-thumb {
+            background-color: $primary; /* Set the thumb color to pink */
+        }
+        
+    }
+}
+
+.played-song {
+    width: 250px;  
+}

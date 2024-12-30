@@ -10,9 +10,17 @@
     </div>
 </div>
 <div class="d-flex flex-column rounded-bottom-2 pool-height over-flow-scroll bg-light p-2">
-    @for (song of songs; track song.publicId) {
-        <div class="mt-1 pool-song-card p1">
-            <app-pool-song-card [song]="song"></app-pool-song-card>
+    @if (loading) {
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="spinner-grow text-primary loader" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
+    } @else {    
+        @for (song of songs; track song.publicId) {
+            <div class="mt-1 pool-song-card p1">
+                <app-pool-song-card [song]="song" (songToPlay$)="onPlay($event)"></app-pool-song-card>
+            </div>
+        }
     }
 </div>

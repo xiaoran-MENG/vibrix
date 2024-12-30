@@ -1,6 +1,10 @@
 @import 'style/variables.scss';
 @import 'bootstrap/scss/bootstrap';
 
+.nav-icon {
+    font-size: 20px;
+}
+
 .song-card-background {
     cursor: pointer;
     background-color: $white;
@@ -15,4 +19,8 @@
 .author {
     color: $secondary;
     font-size: $font-size-small;
+}
+
+.modal-content {
+    border: none;
 }

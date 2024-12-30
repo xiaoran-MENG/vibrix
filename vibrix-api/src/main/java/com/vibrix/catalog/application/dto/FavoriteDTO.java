@@ -1,9 +1,10 @@
 package com.vibrix.catalog.application.dto;
 
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.UUID;
+
+import java.util.UUID;
 
 public record FavoriteDTO(
         @NotNull boolean favorite,
-        @NotNull UUID publicID) {
+        @NotNull UUID publicId) {
 }

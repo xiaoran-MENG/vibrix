@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -22,17 +23,23 @@ public class UserService {
         this.mapper = mapper;
     }
 
-    public ReadUserDTO getAuthUser() {
+    public ReadUserDTO get() {
         var principal = (OAuth2User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
         return mapper.toReadUserDTO(toUser(principal.getAttributes()));
     }
 
+    public Optional<ReadUserDTO> getByEmail(String email) {
+        var user = repository.findOneByEmail(email);
+        return user.map(mapper::toReadUserDTO);
+    }
+
     public void sync(OAuth2User principal) {
         var updatedAt = principal.getAttributes().get("updated_at");
         if (updatedAt == null) return;
-        record UserRecord(Instant updatedAtDb, Instant updatedAtDbIdp, User user) { }
+        record UserRecord(Instant updatedAtDb, Instant updatedAtDbIdp, User user) {
+        }
         Function<User, UserRecord> toRecord = user -> new UserRecord(
                 user.getLastModifiedDate(),
                 updatedAt instanceof Instant ? (Instant) updatedAt : Instant.ofEpochSecond((Integer) updatedAt),
@@ -76,4 +83,11 @@ public class UserService {
         return user;
     }
 
+    public boolean authenticated() {
+        return !SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()
+                .equals("anonymousUser");
+    }
 }

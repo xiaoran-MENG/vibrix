@@ -1,0 +1,11 @@
+@import '../../../style/variables.scss';
+
+.auth-popup {
+    height: 250px;
+    border-radius: $card-border-radius;
+
+    button {
+        color: $dark;
+        font-size: 16px;
+    }
+}

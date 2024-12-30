@@ -1,6 +1,17 @@
-<h1 class="mb-3 mt-3">Your Songs</h1>
-<div class="d-flex flex-wrap">
-    @for (song of songs; track song.publicId) {
-        <app-song-card class="card song-card-background mt-0 mb-4 ms-0 me-4 shadow" [song]="song"></app-song-card>
-    }
-</div>
+<h1 class="mb-3">Your Song Pool</h1>
+<app-favorite-song-card/>
+<h2 class="mb-3 mt-3">Computer Science Sucks !</h2>
+@if (loading) {
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-grow text-primary loader" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+} @else {
+    <div class="d-flex flex-wrap">
+        @for (song of songs; track song.publicId) {
+            <app-song-card class="card song-card-background mt-0 mb-4 ms-0 me-4 shadow" 
+                [song]="song" (songToPlay$)="onPlay($event)"></app-song-card>
+        }
+    </div>
+}

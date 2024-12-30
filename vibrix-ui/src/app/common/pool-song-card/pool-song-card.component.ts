@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { ReadSong } from '../../service/model/song.model';
 
 @Component({
@@ -9,5 +9,11 @@ import { ReadSong } from '../../service/model/song.model';
   styleUrl: './pool-song-card.component.scss'
 })
 export class PoolSongCardComponent {
+  @Output() songToPlay$ = new EventEmitter<ReadSong>();
+
   song = input.required<ReadSong>();
+
+  play() {
+    this.songToPlay$.next(this.song());
+  }
 }

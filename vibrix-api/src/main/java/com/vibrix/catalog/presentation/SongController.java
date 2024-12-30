@@ -3,10 +3,13 @@ package com.vibrix.catalog.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vibrix.catalog.application.SongService;
 import com.vibrix.catalog.application.dto.ContentDTO;
+import com.vibrix.catalog.application.dto.FavoriteDTO;
 import com.vibrix.catalog.application.dto.ReadSongDTO;
 import com.vibrix.catalog.application.dto.SaveSongDTO;
+import com.vibrix.infrastructure.service.dto.StatusNotification;
 import com.vibrix.user.application.UserService;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,6 +64,28 @@ public class SongController {
         return violations.isEmpty()
             ? ResponseEntity.ok(songService.add(song))
             : ResponseEntity.of(invalidFields(violations)).build();
+    }
+
+    @GetMapping("/songs/search")
+    public ResponseEntity<List<ReadSongDTO>> search(@RequestParam String term) {
+        return ResponseEntity.ok(songService.search(term));
+    }
+
+    @PostMapping("/songs/like")
+    public ResponseEntity<FavoriteDTO> toggleFavorite(@Valid @RequestBody FavoriteDTO dto) {
+        var user = userService.get();
+        var state = songService.toggleFavorite(dto, user.email());
+        if (state.getStatus().equals(StatusNotification.ERROR)) {
+            var problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, state.getError());
+            return ResponseEntity.of(problem).build();
+        }
+        return ResponseEntity.ok(state.getValue());
+    }
+
+    @GetMapping("/songs/like")
+    public ResponseEntity<List<ReadSongDTO>> getFavoriteSongs() {
+        var user = userService.get();
+        return ResponseEntity.ok(songService.getFavoriteSongs(user.email()));
     }
 
     private static ProblemDetail invalidFields(Set<ConstraintViolation<SaveSongDTO>> violations) {

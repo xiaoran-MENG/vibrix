@@ -31,7 +31,7 @@ public class AuthController {
     @GetMapping("/authuser")
     public ResponseEntity<ReadUserDTO> get(@AuthenticationPrincipal OAuth2User principal) {
         service.sync(principal);
-        return ResponseEntity.ok().body(service.getAuthUser());
+        return ResponseEntity.ok().body(service.get());
     }
 
     @PostMapping("/logout")

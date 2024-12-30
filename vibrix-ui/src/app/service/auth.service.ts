@@ -5,6 +5,8 @@ import { environment } from '../../environments/environment';
 import { NOT_CONNECTED, State } from './model/state.model';
 import { User } from './model/user.model';
 
+export type AuthPopupState = 'OPEN' | 'CLOSE';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,10 @@ export class AuthService {
   location = inject(Location);
 
   private user$ = signal(State.unauthorized());
+  private authPopup$ = signal<AuthPopupState>('CLOSE');
+
   user = computed(() => this.user$());
+  authPopup = computed(() => this.authPopup$());
 
   constructor() { }
 
@@ -33,6 +38,10 @@ export class AuthService {
     return user ? user!.email !== NOT_CONNECTED : false;
   }
 
+  toggleAuthPopup(state: AuthPopupState) {
+    this.authPopup$.set(state);
+  }
+
   login() {
     location.href = `${location.origin}${this.location.prepareExternalUrl('oauth2/authorization/okta')}`;
   }
@@ -46,6 +55,4 @@ export class AuthService {
       }
     });
   }
-
-
 }

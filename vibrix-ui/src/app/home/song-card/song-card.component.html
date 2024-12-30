@@ -1,10 +1,10 @@
-<div (mouseover)="onHoverPlay(true)" (mouseleave)="onHoverPlay(false)">
+<div (click)="play()" (mouseover)="onHoverPlay(true)" (mouseleave)="onHoverPlay(false)">
     <div class="card-body">
-        <img class="card-img-top card-img-bottom" [src]="'data:' + songToDisplay.coverContentType + ';base64,' + songToDisplay.cover" alt="Cover">
-        <h5 class="title mt-3">{{songToDisplay.title?.value}}</h5>
-        <p class="author">{{songToDisplay.author?.value}}</p>
+        <img class="card-img-top card-img-bottom" [src]="'data:' + songToPlay.coverContentType + ';base64,' + songToPlay.cover" alt="Cover">
+        <h5 class="title mt-3">{{songToPlay.title?.value}}</h5>
+        <p class="author">{{songToPlay.author?.value}}</p>
     </div>
-    @if (songToDisplay.displayPlayIcon) {
+    @if (songToPlay.displayPlayIcon) {
         <div class="play position-absolute d-flex align-items-center" [@inOutAnimation]>
             <fa-icon class="text-primary" [icon]="'circle-play'"></fa-icon>
         </div>
